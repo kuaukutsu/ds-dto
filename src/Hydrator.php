@@ -23,7 +23,7 @@ use ReflectionException;
  * ```
  *
  */
-class Hydrator
+final class Hydrator
 {
     /**
      * Mapping
@@ -150,17 +150,15 @@ class Hydrator
         $keyArr = explode('.', $key);
 
         if (count($keyArr) > 1) {
-            $search = $array;
             foreach ($keyArr as $name) {
-                if (!isset($search[$name])) {
-                    $search = $default;
-                    break;
+                if (!isset($array[$name])) {
+                    return $default;
                 }
 
-                $search = $search[$name] ?? $default;
+                $array = $array[$name] ?? [];
             }
 
-            return $search;
+            return $array;
         }
 
         return $array[$key] ?? $default;
