@@ -84,22 +84,10 @@ final class Hydrator
         $reflection = new ReflectionClass($className);
         $object = $reflection->newInstanceWithoutConstructor();
         foreach ($this->map as $dataKey => $propertyValue) {
-            $value = $this->getValue($dataKey, $propertyValue, $data);
-
             if ($reflection->hasProperty($dataKey)) {
                 $property = $reflection->getProperty($dataKey);
                 $property->setAccessible(true);
-                $property->setValue($object, $value);
-            } else {
-                // if has not method when setter
-                if (!$reflection->hasMethod($dataKey)) {
-                    $dataKey = 'set' . $dataKey;
-                }
-
-                if ($reflection->hasMethod($dataKey)) {
-                    $method = $reflection->getMethod($dataKey);
-                    $method->invoke($object, $value);
-                }
+                $property->setValue($object, $this->getValue($dataKey, $propertyValue, $data));
             }
         }
 
