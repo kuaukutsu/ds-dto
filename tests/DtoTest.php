@@ -9,7 +9,7 @@ class DtoTest extends TestCase
 {
     /**
      * @dataProvider dataProviderHydrate()
-     * @param array<array-key, mixed> $data
+     * @param array<string, mixed> $data
      * @param string[] $map
      * @param array<string, mixed> $expected
      * @throws ReflectionException
@@ -21,8 +21,10 @@ class DtoTest extends TestCase
         foreach ($expected as $key => $value) {
             $data = $object->toArray();
 
-            // проверка что возвращаемых свойств через toArray() столько же, сколько объявлено в map
-            self::assertCount(count($map), $data);
+            // проверка что возвращаемых свойств через toArray() столько же, сколько объявлено в map, если задано
+            if (count($map)) {
+                self::assertCount(count($map), $data);
+            }
 
             // проверка что hydrate верно отработал и в массиве DTO заданные данные
             self::assertEquals($value, $data[$key]);
@@ -30,6 +32,21 @@ class DtoTest extends TestCase
             // проверка что объект DTO имеет верные значения
             self::assertEquals($value, $object->{'get' . $key}());
         }
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testHydrateEmptyMap(): void
+    {
+        $object = ModelDto::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123], []);
+
+        $data = $object->toArray();
+
+        // должны быть два найденных свойства: id, name
+        self::assertCount(2, $data);
+        self::assertArrayHasKey('id', $data);
+        self::assertArrayHasKey('name', $data);
     }
 
     public function dataProviderHydrate(): array
@@ -59,6 +76,11 @@ class DtoTest extends TestCase
                 ['id' => 5, 'name' => 'NameHydrate'],
                 ['id', 'name'],
                 ['id' => 5, 'name' => 'NameHydrate']
+            ],
+            [
+                ['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123],
+                [],
+                ['id' => 6, 'name' => 'NameHydrate']
             ],
         ];
     }

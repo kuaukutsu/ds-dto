@@ -10,7 +10,7 @@ class HydratorTest extends TestCase
 {
     /**
      * @dataProvider dataProviderHydrate()
-     * @param array<array-key, mixed> $data
+     * @param array<string, mixed> $data
      * @param string[] $map
      * @param array<string, mixed> $expected
      * @throws ReflectionException
@@ -26,6 +26,19 @@ class HydratorTest extends TestCase
             // проверка что объект DTO имеет верные значения
             self::assertEquals($value, $object->{'get' . $key}());
         }
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testHydrateEmptyMap(): void
+    {
+        $hydrator = new Hydrator([]);
+
+        /** @var ModelDto $object */
+        $object = $hydrator->hydrate(['id' => 5, 'name' => 'NameHydrate'], ModelDto::class);
+
+        self::assertEmpty($object->toArray());
     }
 
     public function dataProviderHydrate(): array
