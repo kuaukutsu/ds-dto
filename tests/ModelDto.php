@@ -15,9 +15,15 @@ final class ModelDto extends BaseDto
 
     protected string $name;
 
-    protected array $props = [];
+    protected ?array $props = [];
 
-    protected ?string $tree;
+    protected ?string $tree = null;
+
+    public function __construct(int $id, string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
 
     /**
      * @return int

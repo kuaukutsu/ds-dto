@@ -33,7 +33,7 @@ final class Hydrator
     private array $map;
 
     /**
-     * @var array массив свойств объекта которые были найдены в массиве данных.
+     * @var string[] массив свойств объекта которые были найдены в массиве данных.
      */
     private array $fields = [];
 
@@ -45,7 +45,7 @@ final class Hydrator
     /**
      * Hydrator constructor.
      *
-     * @param array<array-key, string> $map может быть:
+     * @param string[]|array<string, string> $map может быть:
      * - ассоциативным массивом (слева: свойство объекта; справа: путь до данных в массиве)
      * - плоским массивом, тогда считам что свойства объекта, есть и путь до данных в массиве
      */
@@ -65,21 +65,13 @@ final class Hydrator
     }
 
     /**
-     * @return array
-     */
-    public function getFields(): array
-    {
-        return $this->fields;
-    }
-
-    /**
-     * @param array $data массив с данными
+     * @param array<string, mixed> $data массив с данными
      * @param string $className
      * @psalm-param class-string $className имя класса, на основе которого будет создан объект
-     * @return object|null
+     * @return object
      * @throws ReflectionException
      */
-    public function hydrate(array $data, string $className): ?object
+    public function hydrate(array $data, string $className): object
     {
         $reflection = new ReflectionClass($className);
         $object = $reflection->newInstanceWithoutConstructor();
@@ -91,13 +83,34 @@ final class Hydrator
             }
         }
 
+        /**
+         * Применимо к DTO, получаем список явно полученных свойств из массива данных,
+         * и передаём в приватное свойство абстрактоного класса BaseDTO.
+         * Можно получать те же данные явно, через publick getFields().
+         */
+        if (($parent = $reflection->getParentClass()) && $parent->hasProperty('fieldsUsedInMap')) {
+            $property = $parent->getProperty('fieldsUsedInMap');
+            $property->setAccessible(true);
+            $property->setValue($object, $this->getFields());
+        }
+
         return $object;
     }
 
     /**
+     * @return string[]
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Получаем значение из массива данных.
+     *
      * @param string $key
      * @param string|callable $value
-     * @param array $data
+     * @param array<string, mixed> $data
      * @param mixed $default
      * @return mixed
      */
@@ -127,7 +140,7 @@ final class Hydrator
     /**
      * Example: getValueByPath(Data[], 'key.subkey')
      *
-     * @param array $array
+     * @param array<string, mixed> $array
      * @param string $path
      * @param mixed $default
      * @return mixed

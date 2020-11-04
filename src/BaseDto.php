@@ -10,19 +10,21 @@ use ReflectionException;
  * Базовый класс для объекта DTO.
  * DTO простой класс для обмена данными между компонентами.
  * Не должно быть никакой бизнес логики.
+ *
+ * @psalm-immutable
  */
 abstract class BaseDto implements DtoInterface
 {
     /**
-     * @var array имена свойств которые участвуют в мапинге
+     * @var string[] имена свойств которые участвуют в мапинге
      */
-    private array $fieldsUsedInMaps = [];
+    private array $fieldsUsedInMap = [];
 
     /**
      * Construct.
      *
-     * @param array $data данные которыми необходимо заполнить экземпляр объекта
-     * @param array<array-key, string> $map по умолчанию будет генерироваться на основе полей DTO
+     * @param array<string, mixed> $data данные которыми необходимо заполнить экземпляр объекта
+     * @param string[]|array<string, string> $map по умолчанию будет генерироваться на основе полей DTO
      * @return static
      * @throws ReflectionException
      */
@@ -32,11 +34,8 @@ abstract class BaseDto implements DtoInterface
             $map = array_keys(get_class_vars(static::class));
         }
 
-        $hydrator = new Hydrator($map);
-
         /** @var static $model */
-        $model = $hydrator->hydrate($data, static::class);
-        $model->fieldsUsedInMaps = $hydrator->getFields();
+        $model = (new Hydrator($map))->hydrate($data, static::class);
 
         return $model;
     }
@@ -47,11 +46,19 @@ abstract class BaseDto implements DtoInterface
     public function toArray(array $fields = []): array
     {
         if ($fields === []) {
-            $fields = $this->fieldsUsedInMaps;
+            $fields = $this->getFieldsUsedInMap();
         }
 
         return array_filter(get_object_vars($this), static function (string $key) use ($fields): bool {
             return in_array($key, $fields, true);
         }, ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * @return string[] имена свойств которые участвуют в мапинге
+     */
+    protected function getFieldsUsedInMap(): array
+    {
+        return $this->fieldsUsedInMap;
     }
 }
