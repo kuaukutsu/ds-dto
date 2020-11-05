@@ -2,8 +2,10 @@
 
 namespace kuaukutsu\dto\tests;
 
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 class DtoTest extends TestCase
 {
@@ -17,25 +19,33 @@ class DtoTest extends TestCase
     public function testHydrate(array $data, array $map, array $expected): void
     {
         $object = ModelDto::hydrate($data, $map);
+        $dataDto = $object->toArray();
+
+        $classicDto = ClassicDto::hydrate($data, $map);
+        $dataClassicDto = $classicDto->toArray();
+
 
         foreach ($expected as $key => $value) {
-            $data = $object->toArray();
-
             // проверка что возвращаемых свойств через toArray() столько же, сколько объявлено в map, если задано
             if (count($map)) {
-                self::assertCount(count($map), $data);
+                self::assertCount(count($map), $dataDto);
+                self::assertCount(count($map), $dataClassicDto);
             }
 
             // проверка что hydrate верно отработал и в массиве DTO заданные данные
-            self::assertEquals($value, $data[$key]);
+            self::assertEquals($value, $dataDto[$key]);
+            self::assertEquals($value, $dataClassicDto[$key]);
 
             // проверка что объект DTO имеет верные значения
             self::assertEquals($value, $object->{'get' . $key}());
+            self::assertEquals($value, $classicDto->{$key});
         }
     }
 
     /**
      * @throws ReflectionException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function testHydrateEmptyMap(): void
     {

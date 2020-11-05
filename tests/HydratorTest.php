@@ -3,8 +3,10 @@
 namespace kuaukutsu\dto\tests;
 
 use kuaukutsu\dto\Hydrator;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 class HydratorTest extends TestCase
 {
@@ -30,6 +32,8 @@ class HydratorTest extends TestCase
 
     /**
      * @throws ReflectionException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function testHydrateEmptyMap(): void
     {
