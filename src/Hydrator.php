@@ -40,7 +40,7 @@ final class Hydrator
     /**
      * @var string случайная строка, примесь
      */
-    private string $hashStub;
+    private string $hashStub = '619a799747d348fa1caf181a72b65d9f';
 
     /**
      * Hydrator constructor.
@@ -59,9 +59,6 @@ final class Hydrator
 
             $this->map[$keyTo] = $keyFrom;
         }
-
-        // случайный hash
-        $this->hashStub = hash('crc32', serialize($map));
     }
 
     /**
@@ -75,6 +72,7 @@ final class Hydrator
     {
         $reflection = new ReflectionClass($className);
         $object = $reflection->newInstanceWithoutConstructor();
+        $this->hashStub = spl_object_hash($object);
         foreach ($this->map as $dataKey => $propertyValue) {
             if ($reflection->hasProperty($dataKey)) {
                 $property = $reflection->getProperty($dataKey);
@@ -111,14 +109,13 @@ final class Hydrator
      * @param string $key
      * @param string|callable $value
      * @param array<string, mixed> $data
-     * @param mixed $default
      * @return mixed
      */
-    private function getValue(string $key, $value, array $data, $default = null)
+    private function getValue(string $key, $value, array $data)
     {
         if (is_callable($value)) {
             $this->fields[] = $key;
-            return $value($data) ?? $default;
+            return $value($data);
         }
 
         /**
@@ -134,7 +131,7 @@ final class Hydrator
             return $valueHash;
         }
 
-        return $default;
+        return null;
     }
 
     /**

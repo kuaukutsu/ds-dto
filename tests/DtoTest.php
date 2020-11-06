@@ -92,6 +92,16 @@ class DtoTest extends TestCase
                 [],
                 ['id' => 6, 'name' => 'NameHydrate']
             ],
+            [
+                ['id' => 7, 'name' => 'NameHydrate', 'props' => [1,2,3]],
+                ['id', 'name', 'props' => fn(array $data): array => (array)($data['props'] ?? [])],
+                ['id' => 7, 'name' => 'NameHydrate', 'props' => [1,2,3]]
+            ],
+            [
+                ['id' => 8, 'name' => 'NameHydrate', 'props' => [1,2,3]],
+                ['id' => 'id', 'name' => 'name', 'props' => fn(array $data): array => []],
+                ['id' => 8, 'name' => 'NameHydrate', 'props' => []]
+            ],
         ];
     }
 }
