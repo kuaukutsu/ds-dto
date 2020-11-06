@@ -118,7 +118,7 @@ final class Hydrator
     {
         if (is_callable($value)) {
             $this->fields[] = $key;
-            return $value($data);
+            return $value($data) ?? $default;
         }
 
         /**
