@@ -13,7 +13,7 @@ use ReflectionException;
  *
  * @psalm-immutable
  */
-abstract class BaseDto implements DtoInterface
+abstract class DtoBase implements DtoInterface
 {
     /**
      * @var string[] имена свойств которые участвуют в мапинге

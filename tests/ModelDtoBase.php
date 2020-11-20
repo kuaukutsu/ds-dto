@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace kuaukutsu\dto\tests;
 
-use kuaukutsu\dto\BaseDto;
+use kuaukutsu\dto\DtoBase;
 
 /**
  * Class ModelDto
  * @psalm-immutable
  */
-final class ModelDto extends BaseDto
+final class ModelDtoBase extends DtoBase
 {
     protected int $id;
 

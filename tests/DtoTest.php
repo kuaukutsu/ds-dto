@@ -18,10 +18,10 @@ class DtoTest extends TestCase
      */
     public function testHydrate(array $data, array $map, array $expected): void
     {
-        $object = ModelDto::hydrate($data, $map);
+        $object = ModelDtoBase::hydrate($data, $map);
         $dataDto = $object->toArray();
 
-        $classicDto = ClassicDto::hydrate($data, $map);
+        $classicDto = ClassicDtoBase::hydrate($data, $map);
         $dataClassicDto = $classicDto->toArray();
 
 
@@ -49,7 +49,7 @@ class DtoTest extends TestCase
      */
     public function testHydrateEmptyMap(): void
     {
-        $object = ModelDto::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123], []);
+        $object = ModelDtoBase::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123], []);
 
         $data = $object->toArray();
 

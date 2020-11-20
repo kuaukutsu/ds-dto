@@ -21,8 +21,8 @@ class HydratorTest extends TestCase
     {
         $hydrator = new Hydrator($map);
 
-        /** @var ModelDto $object */
-        $object = $hydrator->hydrate($data, ModelDto::class);
+        /** @var ModelDtoBase $object */
+        $object = $hydrator->hydrate($data, ModelDtoBase::class);
 
         foreach ($expected as $key => $value) {
             // проверка что объект DTO имеет верные значения
@@ -39,8 +39,8 @@ class HydratorTest extends TestCase
     {
         $hydrator = new Hydrator([]);
 
-        /** @var ModelDto $object */
-        $object = $hydrator->hydrate(['id' => 5, 'name' => 'NameHydrate'], ModelDto::class);
+        /** @var ModelDtoBase $object */
+        $object = $hydrator->hydrate(['id' => 5, 'name' => 'NameHydrate'], ModelDtoBase::class);
 
         self::assertEmpty($object->toArray());
     }
