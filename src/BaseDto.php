@@ -41,7 +41,10 @@ abstract class BaseDto implements DtoInterface
     }
 
     /**
-     * @inheritDoc
+     * Converts the object into an array.
+     *
+     * @param string[] $fields the fields that the output array should contain.
+     * @return array<string, mixed> the array representation of the object
      */
     public function toArray(array $fields = []): array
     {
