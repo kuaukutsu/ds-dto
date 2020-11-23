@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace kuaukutsu\dto\tests;
+namespace kuaukutsu\dto\tests\stub;
 
 use kuaukutsu\dto\DtoBase;
 
@@ -9,7 +9,7 @@ use kuaukutsu\dto\DtoBase;
  * Class ModelDto
  * @psalm-immutable
  */
-final class ModelDtoBase extends DtoBase
+final class ModelDto extends DtoBase
 {
     protected int $id;
 

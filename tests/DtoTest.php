@@ -2,6 +2,8 @@
 
 namespace kuaukutsu\dto\tests;
 
+use kuaukutsu\dto\tests\stub\ClassicDto;
+use kuaukutsu\dto\tests\stub\ModelDto;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
@@ -18,10 +20,10 @@ class DtoTest extends TestCase
      */
     public function testHydrate(array $data, array $map, array $expected): void
     {
-        $object = ModelDtoBase::hydrate($data, $map);
+        $object = ModelDto::hydrate($data, $map);
         $dataDto = $object->toArray();
 
-        $classicDto = ClassicDtoBase::hydrate($data, $map);
+        $classicDto = ClassicDto::hydrate($data, $map);
         $dataClassicDto = $classicDto->toArray();
 
 
@@ -49,7 +51,7 @@ class DtoTest extends TestCase
      */
     public function testHydrateEmptyMap(): void
     {
-        $object = ModelDtoBase::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123], []);
+        $object = ModelDto::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123], []);
 
         $data = $object->toArray();
 

@@ -3,6 +3,7 @@
 namespace kuaukutsu\dto\tests;
 
 use kuaukutsu\dto\Hydrator;
+use kuaukutsu\dto\tests\stub\ModelDto;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
@@ -21,8 +22,8 @@ class HydratorTest extends TestCase
     {
         $hydrator = new Hydrator($map);
 
-        /** @var ModelDtoBase $object */
-        $object = $hydrator->hydrate($data, ModelDtoBase::class);
+        /** @var ModelDto $object */
+        $object = $hydrator->hydrate($data, ModelDto::class);
 
         foreach ($expected as $key => $value) {
             // проверка что объект DTO имеет верные значения
@@ -39,8 +40,8 @@ class HydratorTest extends TestCase
     {
         $hydrator = new Hydrator([]);
 
-        /** @var ModelDtoBase $object */
-        $object = $hydrator->hydrate(['id' => 5, 'name' => 'NameHydrate'], ModelDtoBase::class);
+        /** @var ModelDto $object */
+        $object = $hydrator->hydrate(['id' => 5, 'name' => 'NameHydrate'], ModelDto::class);
 
         self::assertEmpty($object->toArray());
     }
