@@ -40,6 +40,11 @@ final class Hydrator
     private array $fields = [];
 
     /**
+     * @var string случайная строка, примесь
+     */
+    private string $hashStub = '619a799747d348fa1caf181a72b65d9f';
+
+    /**
      * Hydrator constructor.
      *
      * @param string[]|array<string, string> $map может быть:
@@ -69,6 +74,7 @@ final class Hydrator
     {
         $reflection = new ReflectionClass($className);
         $object = $reflection->newInstanceWithoutConstructor();
+        $this->hashStub = spl_object_hash($object);
         foreach ($this->map as $dataKey => $propertyValue) {
             if ($reflection->hasProperty($dataKey)) {
                 $property = $reflection->getProperty($dataKey);
@@ -117,19 +123,14 @@ final class Hydrator
         }
 
         /**
-         * @var string случайная строка, примесь
-         */
-        $hashStub = crc32(serialize($data));
-
-        /**
          * Фокус: если по обычному ключу в массиве данных нет значений или null,
          * то пробуем найти ключ (изменить на camelCase и поискать ещё раз),
          * либо ключ найден и тогда мы вернём значение, либо нет, и тогда вернём хэш заглушку,
          * тем самым отмечаем что ключ массива соответсвует свойству, либо не найден.
          */
-        $valueHash = self::getValueByPath($data, $value, $hashStub);
+        $valueHash = self::getValueByPath($data, $value, $this->hashStub);
 
-        if ($valueHash !== $hashStub) {
+        if ($valueHash !== $this->hashStub) {
             $this->fields[] = $key;
 
             return $valueHash;
