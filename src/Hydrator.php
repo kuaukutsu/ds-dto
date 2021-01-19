@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace kuaukutsu\dto;
 
 use ReflectionClass;
@@ -38,11 +40,6 @@ final class Hydrator
     private array $fields = [];
 
     /**
-     * @var string случайная строка, примесь
-     */
-    private string $hashStub = '619a799747d348fa1caf181a72b65d9f';
-
-    /**
      * Hydrator constructor.
      *
      * @param string[]|array<string, string> $map может быть:
@@ -72,7 +69,6 @@ final class Hydrator
     {
         $reflection = new ReflectionClass($className);
         $object = $reflection->newInstanceWithoutConstructor();
-        $this->hashStub = spl_object_hash($object);
         foreach ($this->map as $dataKey => $propertyValue) {
             if ($reflection->hasProperty($dataKey)) {
                 $property = $reflection->getProperty($dataKey);
@@ -110,13 +106,20 @@ final class Hydrator
      * @param string|callable $value
      * @param array<string, mixed> $data
      * @return mixed
+     * @noinspection PhpMissingReturnTypeInspection
      */
     private function getValue(string $key, $value, array $data)
     {
         if (is_callable($value)) {
             $this->fields[] = $key;
+
             return $value($data);
         }
+
+        /**
+         * @var string случайная строка, примесь
+         */
+        $hashStub = crc32(serialize($data));
 
         /**
          * Фокус: если по обычному ключу в массиве данных нет значений или null,
@@ -124,10 +127,11 @@ final class Hydrator
          * либо ключ найден и тогда мы вернём значение, либо нет, и тогда вернём хэш заглушку,
          * тем самым отмечаем что ключ массива соответсвует свойству, либо не найден.
          */
-        $valueHash = self::getValueByPath($data, $value, $this->hashStub);
+        $valueHash = self::getValueByPath($data, $value, $hashStub);
 
-        if ($valueHash !== $this->hashStub) {
+        if ($valueHash !== $hashStub) {
             $this->fields[] = $key;
+
             return $valueHash;
         }
 
@@ -141,6 +145,7 @@ final class Hydrator
      * @param string $path
      * @param mixed $default
      * @return mixed
+     * @noinspection PhpMissingReturnTypeInspection
      */
     private static function getValueByPath(array $array, string $path, $default = null)
     {

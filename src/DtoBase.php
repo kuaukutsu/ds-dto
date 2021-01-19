@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace kuaukutsu\dto;
 
 use ReflectionException;
@@ -52,9 +54,13 @@ abstract class DtoBase implements DtoInterface
             $fields = $this->getFieldsUsedInMap();
         }
 
-        return array_filter(get_object_vars($this), static function (string $key) use ($fields): bool {
-            return in_array($key, $fields, true);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter(
+            get_object_vars($this),
+            static function (string $key) use ($fields): bool {
+                return in_array($key, $fields, true);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     /**
