@@ -3,11 +3,22 @@ name: Static code analysis
 on: [pull_request]
 
 jobs:
-  static-code-analysis:
+#  static-code-analysis:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@master
+#      - name: PHP_CodeSniffer
+#        uses: docker://jakzal/phpqa:php7.4-alpine
+#        with:
+#          args: phpcs
+  phpcs:
+    name: PHPCS
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: PHP_CodeSniffer
-        uses: docker://jakzal/phpqa:php7.4-alpine
+      - name: Install dependencies
+        run: composer install --dev --prefer-dist --no-progress --no-suggest
+      - name: PHPCS check
+        uses: chekalsky/phpcs-action@v1
         with:
-          args: phpcs
+          phpcs_bin_path: './vendor/bin/phpcs'
