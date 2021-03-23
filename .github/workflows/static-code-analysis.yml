@@ -3,23 +3,15 @@ name: Static code analysis
 on: [pull_request]
 
 jobs:
-#  static-code-analysis:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@master
-#      - name: PHP_CodeSniffer
-#        uses: docker://jakzal/phpqa:php7.4-alpine
-#        with:
-#          args: phpcs
-  phpcs:
-    name: PHPCS
+  static-code-analysis:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Setup PHP with tools
-        uses: shivammathur/setup-php@v2
+      - name: PHP_CodeSniffer
+        uses: docker://jakzal/phpqa:php7.4-alpine
         with:
-          php-version: '7.4'
-          tools: phpcs
-      - name: PHPCS check
-        uses: chekalsky/phpcs-action@v1
+          args: phpcs
+      - name: PHP-CS-Fixer
+        uses: docker://jakzal/phpqa:php7.4-alpine
+        with:
+          args: php-cs-fixer --dry-run --allow-risky=yes --no-interaction --ansi fix

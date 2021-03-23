@@ -1,0 +1,13 @@
+name: PHPUnit
+
+on: [pull_request]
+
+jobs:
+  static-code-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: PHPUnit
+        uses: docker://jakzal/phpqa:php7.4-alpine
+        with:
+          args: phpunit
