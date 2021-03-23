@@ -10,4 +10,4 @@ jobs:
       - name: PHPUnit
         uses: docker://jakzal/phpqa:php7.4-alpine
         with:
-          args: phpunit
+          args: phpunit --colors=always
