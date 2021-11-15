@@ -1,43 +1,41 @@
 {
-    "name": "kuaukutsu/dto",
-    "description": "Data Transfer Object",
-    "license": "BSD-3-Clause",
-
-    "authors": [
-        {
-            "name": "Dmitriy Krivopalov",
-            "email": "dimarik82@gmail.com"
-        }
-    ],
-
-    "support": {
-        "issues": "https://github.com/kuaukutsu/dto/issues",
-        "source": "https://github.com/kuaukutsu/dto"
-    },
-
-    "require": {
-        "php": ">=7.4"
-    },
-
-    "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": "^9.4",
-        "vimeo/psalm": "^4.1",
-        "psalm/plugin-phpunit": "^0.13.0",
-        "roave/infection-static-analysis-plugin": "^1.3"
-    },
-
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
-
-    "autoload": {
-        "psr-4": {
-            "kuaukutsu\\dto\\": "src",
-            "kuaukutsu\\dto\\tests\\": "tests"
-        }
+  "name": "kuaukutsu/dto",
+  "description": "DTO: Data Transfer Object",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Dmitriy Krivopalov",
+      "email": "dimarik82@gmail.com"
     }
+  ],
+  "support": {
+    "issues": "https://github.com/kuaukutsu/dto/issues",
+    "source": "https://github.com/kuaukutsu/dto"
+  },
+  "require": {
+    "php": ">=7.4",
+    "yiisoft/yii2": "^2.0.35",
+    "yiisoft/arrays": "^1.0",
+    "yiisoft/strings": "^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.4",
+    "vimeo/psalm": "^4.1",
+    "psalm/plugin-phpunit": "^0.13.0",
+    "squizlabs/php_codesniffer": "*",
+    "roave/infection-static-analysis-plugin": "^1.3",
+    "roave/security-advisories": "dev-latest"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "kuaukutsu\\dto\\": "src",
+      "kuaukutsu\\dto\\tests\\": "tests"
+    }
+  }
 }
