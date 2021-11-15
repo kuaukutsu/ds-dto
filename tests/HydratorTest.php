@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace kuaukutsu\dto\tests;
 
-use kuaukutsu\dto\Hydrator;
-use kuaukutsu\dto\tests\stub\ModelDto;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use kuaukutsu\dto\tests\stub\ModelDto;
+use kuaukutsu\dto\Hydrator;
 
-class HydratorTest extends TestCase
+final class HydratorTest extends TestCase
 {
     /**
      * @dataProvider dataProviderHydrate()
@@ -26,8 +28,8 @@ class HydratorTest extends TestCase
         $object = $hydrator->hydrate($data, ModelDto::class);
 
         foreach ($expected as $key => $value) {
-            // проверка что объект DTO имеет верные значения
-            self::assertEquals($value, $object->{'get' . $key}());
+            // проверка, что объект DTO имеет верные значения
+            self::assertEquals($value, $object->{$key});
         }
     }
 
@@ -49,30 +51,39 @@ class HydratorTest extends TestCase
     public function dataProviderHydrate(): array
     {
         return [
+            // Простая проверка, что только заданные значения задаются
             [
-                ['id' => 1, 'name' => 'NameHydrate', 'props' => [1,2,3]],
+                ['id' => 1, 'name' => 'NameHydrate', 'props' => [1, 2, 3]],
                 ['id', 'name'],
                 ['id' => 1, 'name' => 'NameHydrate']
             ],
+            [
+                ['id' => 3, 'name' => 'NameHydrate', 'props' => [1, 2, 3]],
+                ['id', 'props'],
+                ['id' => 3, 'props' => [1, 2, 3]]
+            ],
+            // Проверка, что работает xpath
             [
                 ['id' => 2, 'path' => ['name' => 'PathNameHydrate']],
                 ['id', 'name' => 'path.name'],
                 ['id' => 2, 'name' => 'PathNameHydrate']
             ],
             [
-                ['id' => 3, 'name' => 'NameHydrate', 'props' => [1,2,3]],
-                ['id', 'props'],
-                ['id' => 3, 'props' => [1,2,3]]
-            ],
-            [
                 ['id' => 4, 'path' => ['sub' => ['name' => 'PathSubNameHydrate']]],
                 ['id', 'name' => 'path.sub.name'],
                 ['id' => 4, 'name' => 'PathSubNameHydrate']
             ],
+            // Проверка значений по умолчанию
             [
                 ['id' => 5, 'name' => 'NameHydrate'],
                 ['id', 'name'],
                 ['id' => 5, 'name' => 'NameHydrate', 'props' => []]
+            ],
+            // Проверяем, что если в данных snake_case, то пробуем привести его к виду camelCase
+            [
+                ['id' => 6, 'camel_case' => 'test'],
+                ['id', 'camelCase'],
+                ['id' => 6, 'camelCase' => 'test']
             ],
         ];
     }

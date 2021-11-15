@@ -198,6 +198,11 @@ docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm 
 
 ### Code Sniffer
 
+local
+```shell
+docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm ./vendor/bin/phpcs 
+```
+
 phpqa
 ```shell
 docker run --init -it --rm -v "$(pwd):/app" -v "$(pwd)/phpqa/tmp:/tmp" -w /app jakzal/phpqa phpcs
