@@ -10,15 +10,11 @@ use kuaukutsu\dto\DtoBase;
  * @psalm-immutable
  * @psalm-suppress PropertyNotSetInConstructor
  */
-final class ModelDto extends DtoBase
+final class ModelExtendedDto extends DtoBase
 {
     public ?int $id = null;
 
-    public ?string $name = null;
+    public ?ModelDto $modelDto = null;
 
-    public ?string $tree = null;
-
-    public ?string $camelCase = null;
-
-    public array $props = [];
+    public ?ModelExtendedDto $modelExtendedDto = null;
 }
