@@ -7,6 +7,8 @@ namespace kuaukutsu\dto;
 use Closure;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionNamedType;
+use ReflectionProperty;
 use TypeError;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Strings\Inflector;
@@ -100,7 +102,16 @@ final class Hydrator
             if ($reflection->hasProperty($name)) {
                 $property = $reflection->getProperty($name);
                 $property->setAccessible(true);
-                $property->setValue($object, $this->getValue($name, $propertyValue, $data, $default[$name] ?? null));
+
+                $value = $this->getValue($name, $propertyValue, $data, $default[$name] ?? null);
+                if (is_array($value)) {
+                    $classNameDto = $this->getDtoInterface($property);
+                    if ($classNameDto !== null) {
+                        $value = call_user_func([$classNameDto, 'hydrate'], $value);
+                    }
+                }
+
+                $property->setValue($object, $value);
             }
         }
 
@@ -125,6 +136,29 @@ final class Hydrator
     public function getFields(): array
     {
         return $this->fields;
+    }
+
+    /**
+     * @param ReflectionProperty $property
+     * @return class-string|null
+     * @template Dto of DtoInterface
+     * @psalm-return class-string<Dto>|null
+     */
+    private function getDtoInterface(ReflectionProperty $property): ?string
+    {
+        /** @var ReflectionNamedType|null $type */
+        $type = $property->getType();
+        if ($type === null) {
+            return null;
+        }
+
+        $className = $type->getName();
+        if (is_subclass_of($className, DtoInterface::class, true)) {
+            /** @var class-string<Dto> $className */
+            return $className;
+        }
+
+        return null;
     }
 
     /**

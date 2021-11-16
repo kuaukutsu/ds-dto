@@ -32,6 +32,39 @@ final class DtoExtendedTest extends TestCase
         }
     }
 
+    public function testNestedDtoAutoType(): void
+    {
+        $dto = ModelExtendedDto::hydrate(
+            [
+                'id' => 11,
+                'modelDto' => [
+                    'id' => 112,
+                    'name' => 'nested dto',
+                ],
+                'modelExtendedDto' => [
+                    'id' => 22,
+                    'modelDto' => [
+                        'id' => 222,
+                        'name' => 'nested dto 2',
+                    ],
+                ]
+            ]
+        );
+
+        // проверяем тип
+        self::assertInstanceOf(ModelDto::class, $dto->modelDto);
+        // проверяем данные
+        self::assertEquals(112, $dto->modelDto->id);
+        self::assertEquals('nested dto', $dto->modelDto->name);
+
+        // проверяем вложенный тип
+        self::assertInstanceOf(ModelExtendedDto::class, $dto->modelExtendedDto);
+        self::assertInstanceOf(ModelDto::class, $dto->modelExtendedDto->modelDto);
+        // проверяем вложенные данные
+        self::assertEquals(222, $dto->modelExtendedDto->modelDto->id);
+        self::assertEquals('nested dto 2', $dto->modelExtendedDto->modelDto->name);
+    }
+
     public function dataProviderHydrate(): array
     {
         return [
