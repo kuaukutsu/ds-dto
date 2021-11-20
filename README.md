@@ -77,9 +77,9 @@ final class ModelDto extends BaseDto
 
 Может возникнуть вопрос, зачем здесь DTO, ведь в сервисный слой можно передавать форму напрямую ($form или в виде
 массива $form->toArray()), и так же получать из сервисного слоя напрямую модель. Суть в том, что Модель, как и Форма,
-это реализация некоторой логики, у нас в приложении могут быть несколько компонент, которые реализуют логику
+это реализация некоторой логики, и в приложении могут быть несколько компонент, которые реализуют логику
 субъективно, по своему, с учётом требований БЛ, но сервисный слой для всех компонент один и тот же. Поэтому нужен
-механизм, который позволит 3-м разным формам работать с одним методом, как например $service->save(DATA). А так же
+механизм, который позволит 3-м разным формам работать с одним методом, как например $service->save(DTO). А так же
 потому что форма, как любой иной объект может менять своё состояние, и нет чётких гарантий неизменности данных.
 
 ```php
@@ -101,7 +101,7 @@ class Service
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm sh
+docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php sh
 ```
 
 first run:
@@ -124,7 +124,7 @@ The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm ./vendor/bin/phpunit 
+docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/bin/phpunit 
 ```
 
 ### Code Sniffer
@@ -132,7 +132,7 @@ docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm 
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm ./vendor/bin/phpcs 
+docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/bin/phpcs 
 ```
 
 phpqa
@@ -152,7 +152,7 @@ The code is statically analyzed with [Psalm](https://psalm.dev/). To run static 
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/hrmessenger/php:fpm ./vendor/bin/psalm 
+docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/bin/psalm 
 ```
 
 phpqa
