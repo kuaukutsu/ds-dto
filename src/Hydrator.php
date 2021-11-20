@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace kuaukutsu\dto;
 
 use Closure;
-use kuaukutsu\ds\collection\Collection;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -13,6 +12,7 @@ use ReflectionProperty;
 use TypeError;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Strings\Inflector;
+use kuaukutsu\ds\collection\Collection;
 
 /**
  * Hydrator
