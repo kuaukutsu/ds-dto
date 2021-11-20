@@ -19,4 +19,6 @@ final class ModelExtendedDto extends DtoBase
     public ?ModelDto $modelSecondDto = null;
 
     public ?ModelExtendedDto $modelExtendedDto = null;
+
+    public ?ModelDtoCollection $collection = null;
 }

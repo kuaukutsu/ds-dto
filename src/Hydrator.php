@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace kuaukutsu\dto;
 
 use Closure;
+use kuaukutsu\ds\collection\Collection;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -93,9 +94,19 @@ final class Hydrator
 
                 $value = $this->getValue($name, $propertyValue, $data, $default[$name] ?? null);
                 if (is_array($value)) {
-                    $classNameDto = $this->getDtoInterface($property);
-                    if ($classNameDto !== null) {
-                        $value = call_user_func([$classNameDto, 'hydrate'], $value);
+                    $autoCastValue = null;
+                    // is associative?
+                    if (is_string(array_key_first($value))) {
+                        /** @var array<string, mixed> $value */
+                        $autoCastValue = $this->tryCastToDto($property, $value);
+                    }
+
+                    if ($autoCastValue === null) {
+                        $autoCastValue = $this->tryCastToCollection($property, $value);
+                    }
+
+                    if ($autoCastValue !== null) {
+                        $value = $autoCastValue;
                     }
                 }
 
@@ -152,29 +163,6 @@ final class Hydrator
     }
 
     /**
-     * @param ReflectionProperty $property
-     * @return class-string|null
-     * @template Dto of DtoInterface
-     * @psalm-return class-string<Dto>|null
-     */
-    private function getDtoInterface(ReflectionProperty $property): ?string
-    {
-        /** @var ReflectionNamedType|null $type */
-        $type = $property->getType();
-        if ($type === null) {
-            return null;
-        }
-
-        $className = $type->getName();
-        if (is_subclass_of($className, DtoInterface::class, true)) {
-            /** @var class-string<Dto> $className */
-            return $className;
-        }
-
-        return null;
-    }
-
-    /**
      * Получаем значение из массива данных.
      *
      * @param string $name
@@ -222,5 +210,63 @@ final class Hydrator
         }
 
         return $this->inflector;
+    }
+
+    /**
+     * @param ReflectionProperty $property
+     * @param array<string, mixed> $value
+     * @return DtoInterface|null
+     */
+    private function tryCastToDto(ReflectionProperty $property, array $value): ?DtoInterface
+    {
+        /** @var ReflectionNamedType|null $type */
+        $type = $property->getType();
+        if ($type === null) {
+            return null;
+        }
+
+        $className = $type->getName();
+        if (is_subclass_of($className, DtoInterface::class, true)) {
+            return $className::hydrate($value);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ReflectionProperty $property
+     * @param array $value
+     * @return Collection|null
+     */
+    private function tryCastToCollection(ReflectionProperty $property, array $value): ?Collection
+    {
+        /** @var ReflectionNamedType|null $type */
+        $type = $property->getType();
+        if ($type === null) {
+            return null;
+        }
+
+        $className = $type->getName();
+        if (is_subclass_of($className, Collection::class, true)) {
+            /** @var Collection $collection */
+            $collection = new $className();
+            $collectionType = $collection->getType();
+            if (is_subclass_of($collectionType, DtoInterface::class, true) === false) {
+                return null;
+            }
+
+            foreach ($value as $item) {
+                if (is_array($item) === false || is_string(array_key_first($item)) === false) {
+                    return null;
+                }
+
+                /** @var array<string, mixed> $item */
+                $collection->attach($collectionType::hydrate($item));
+            }
+
+            return $collection;
+        }
+
+        return null;
     }
 }

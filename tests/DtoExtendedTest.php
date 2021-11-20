@@ -43,27 +43,27 @@ final class DtoExtendedTest extends TestCase
                 ],
                 'modelExtendedDto' => [
                     'id' => 22,
-                    // может быть массив
+                    // possibly array
                     'modelDto' => [
                         'id' => 222,
                         'name' => 'nested dto 2',
                     ],
-                    // а может быть DTO
+                    // possibly DTO
                     'modelSecondDto' => ModelDto::hydrate(['id' => 233, 'name' => 'Second DTO'])
                 ]
             ]
         );
 
-        // проверяем тип
+        // type check
         self::assertInstanceOf(ModelDto::class, $dto->modelDto);
-        // проверяем данные
+        // data check
         self::assertEquals(112, $dto->modelDto->id);
         self::assertEquals('nested dto', $dto->modelDto->name);
 
-        // проверяем вложенный тип
+        // nested type check
         self::assertInstanceOf(ModelExtendedDto::class, $dto->modelExtendedDto);
         self::assertInstanceOf(ModelDto::class, $dto->modelExtendedDto->modelDto);
-        // проверяем вложенные данные
+        // nested data check
         self::assertEquals(222, $dto->modelExtendedDto->modelDto->id);
         self::assertEquals('nested dto 2', $dto->modelExtendedDto->modelDto->name);
     }

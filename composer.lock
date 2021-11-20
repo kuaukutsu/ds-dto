@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9f388e1d993348f9367fc4e2d77a30c",
+    "content-hash": "3929b37040feb9153fcba7fcce8aca5b",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -200,6 +200,55 @@
             "time": "2020-06-29T00:56:53+00:00"
         },
         {
+            "name": "kuaukutsu/ds-collection",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kuaukutsu/ds-collection.git",
+                "reference": "01b9432dcc52124b47f6c6f41225e5942bced80b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kuaukutsu/ds-collection/zipball/01b9432dcc52124b47f6c6f41225e5942bced80b",
+                "reference": "01b9432dcc52124b47f6c6f41225e5942bced80b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "php-ds/php-ds": "^1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.4",
+                "psalm/plugin-phpunit": "^0.13.0",
+                "roave/infection-static-analysis-plugin": "^1.3",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "*",
+                "vimeo/psalm": "^4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kuaukutsu\\ds\\collection\\": "src",
+                    "kuaukutsu\\ds\\collection\\tests\\": "tests"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitriy Krivopalov",
+                    "email": "dimarik82@gmail.com"
+                }
+            ],
+            "description": "Is the abstract layer which covers functionality the data structure Collection.",
+            "support": {
+                "issues": "https://github.com/kuaukutsu/ds-collection/issues",
+                "source": "https://github.com/kuaukutsu/ds-collection"
+            },
+            "time": "2021-11-20T16:29:57+00:00"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v9.99.100",
             "source": {
@@ -248,6 +297,61 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
+        },
+        {
+            "name": "php-ds/php-ds",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-ds/polyfill.git",
+                "reference": "298cafa4e0e20aeba4d63644e3de694e7cf83ffd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-ds/polyfill/zipball/298cafa4e0e20aeba4d63644e3de694e7cf83ffd",
+                "reference": "298cafa4e0e20aeba4d63644e3de694e7cf83ffd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
+            },
+            "provide": {
+                "ext-ds": "1.3.0"
+            },
+            "require-dev": {
+                "php-ds/tests": "^1.3"
+            },
+            "suggest": {
+                "ext-ds": "to improve performance and reduce memory usage"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ds\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rudi Theunissen",
+                    "email": "rudolf.theunissen@gmail.com"
+                }
+            ],
+            "keywords": [
+                "data structures",
+                "ds",
+                "php",
+                "polyfill"
+            ],
+            "support": {
+                "issues": "https://github.com/php-ds/polyfill/issues",
+                "source": "https://github.com/php-ds/polyfill/tree/v1.4.0"
+            },
+            "time": "2021-11-17T19:52:15+00:00"
         },
         {
             "name": "yiisoft/arrays",
