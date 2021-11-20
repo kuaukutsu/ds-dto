@@ -1,7 +1,7 @@
-FROM php:7.4-fpm-alpine3.13
+FROM php:7.4-cli-alpine3.13
 
 ################################
-###    FPM BASE LAYER        ###
+###    CLI BASE LAYER        ###
 ################################
 
 # https://github.com/mlocati/docker-php-extension-installer
@@ -13,26 +13,11 @@ RUN apk --update add ca-certificates
 # persistent / runtime deps
 RUN apk update \
     && apk add --no-cache --virtual .persistent-deps \
-        git \
-		curl \
-		wget \
-		tar \
-		libressl \
-        freetype \
-        openssl
+      git \
+      composer
 
 # install and remove building packages
 RUN install-php-extensions \
-    apcu \
-    opcache \
-    gd \
-    exif \
-    intl \
-    pcntl \
-    pdo_pgsql \
-    redis \
-    sockets \
-    uuid \
-    zip
+    opcache
 
 EXPOSE 9000
