@@ -52,9 +52,9 @@ final class Hydrator
     private string $hashStub = '619a799747d348fa1caf181a72b65d9f';
 
     /**
-     * @var Inflector Для преобразования строки pascalCaseToId
+     * @var Inflector|null Для преобразования строки pascalCaseToId
      */
-    private Inflector $inflector;
+    private ?Inflector $inflector = null;
 
     /**
      * Hydrator constructor.
@@ -62,23 +62,11 @@ final class Hydrator
      * @param string[]|array<string, string|Closure> $map Может быть:
      * - ассоциативным массивом (слева: свойство объекта; справа: путь до данных в массиве)
      * - плоским массивом, тогда считам что свойства объекта, есть и путь до данных в массиве
+     * @throws TypeError
      */
     public function __construct(array $map)
     {
-        $this->map = [];
-        foreach ($map as $keyTo => $keyFrom) {
-            if (is_int($keyTo)) {
-                if (is_string($keyFrom) === false) {
-                    throw new TypeError('Array item must be a string.');
-                }
-
-                $keyTo = $keyFrom;
-            }
-
-            $this->map[$keyTo] = $keyFrom;
-        }
-
-        $this->inflector = (new Inflector())->withoutIntl();
+        $this->map = $this->generateMap($map);
     }
 
     /**
@@ -139,6 +127,31 @@ final class Hydrator
     }
 
     /**
+     * @param string[]|array<string, string|Closure> $map Может быть:
+     * - ассоциативным массивом (слева: свойство объекта; справа: путь до данных в массиве)
+     * - плоским массивом, тогда считам что свойства объекта, есть и путь до данных в массиве
+     * @return array<string, string|Closure>
+     * @throws TypeError
+     */
+    private function generateMap(array $map): array
+    {
+        $prepareMap = [];
+        foreach ($map as $keyTo => $keyFrom) {
+            if (is_int($keyTo)) {
+                if (is_string($keyFrom) === false) {
+                    throw new TypeError('Array item must be a string.');
+                }
+
+                $keyTo = $keyFrom;
+            }
+
+            $prepareMap[$keyTo] = $keyFrom;
+        }
+
+        return $prepareMap;
+    }
+
+    /**
      * @param ReflectionProperty $property
      * @return class-string|null
      * @template Dto of DtoInterface
@@ -188,7 +201,7 @@ final class Hydrator
         if ($propertyValue === $this->hashStub) {
             $propertyValue = ArrayHelper::getValueByPath(
                 $data,
-                $this->inflector->pascalCaseToId($value, '_'),
+                $this->getInflector()->pascalCaseToId($value, '_'),
                 $this->hashStub
             );
         }
@@ -200,5 +213,14 @@ final class Hydrator
         }
 
         return $default;
+    }
+
+    private function getInflector(): Inflector
+    {
+        if ($this->inflector === null) {
+            $this->inflector = (new Inflector())->withoutIntl();
+        }
+
+        return $this->inflector;
     }
 }

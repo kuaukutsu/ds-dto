@@ -105,13 +105,6 @@ docker build -t kuaukutsu/dto:php .
 docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php sh
 ```
 
-first run:
-
-```shell
-/app# apk add composer
-/app# composer update
-```
-
 ## Testing
 
 ### Unit testing

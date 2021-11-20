@@ -43,10 +43,13 @@ final class DtoExtendedTest extends TestCase
                 ],
                 'modelExtendedDto' => [
                     'id' => 22,
+                    // может быть массив
                     'modelDto' => [
                         'id' => 222,
                         'name' => 'nested dto 2',
                     ],
+                    // а может быть DTO
+                    'modelSecondDto' => ModelDto::hydrate(['id' => 233, 'name' => 'Second DTO'])
                 ]
             ]
         );
