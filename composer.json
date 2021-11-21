@@ -17,7 +17,7 @@
     "yiisoft/yii2": "^2.0.35",
     "yiisoft/arrays": "^1.0",
     "yiisoft/strings": "^2.0",
-    "kuaukutsu/ds-collection": "^1.3.1"
+    "kuaukutsu/ds-collection": "^1.3.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.4",
@@ -31,10 +31,6 @@
     {
       "type": "composer",
       "url": "https://asset-packagist.org"
-    },
-    {
-      "type": "vcs",
-      "url": "git@github.com:kuaukutsu/ds-collection.git"
     }
   ],
   "autoload": {

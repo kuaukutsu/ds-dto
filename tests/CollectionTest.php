@@ -41,4 +41,47 @@ final class CollectionTest extends TestCase
         self::assertNotEmpty($item);
         self::assertEquals(12, $item->id);
     }
+
+    public function testCollectionToArrayRecirsive(): void
+    {
+        $array = [
+            'id' => 1,
+            'extendedCollection' => [
+                [
+                    'id' => 11,
+                    'modelDto' => [
+                        'id' => 11,
+                        'name' => 'first item',
+                    ],
+                    'collection' => [
+                        [
+                            'id' => 111,
+                            'name' => 'first item',
+                        ],
+                        [
+                            'id' => 112,
+                            'name' => 'second item',
+                        ]
+                    ],
+                ],
+                [
+                    'id' => 12,
+                    'collection' => [
+                        [
+                            'id' => 121,
+                            'name' => 'first item',
+                        ],
+                        [
+                            'id' => 122,
+                            'name' => 'second item',
+                        ]
+                    ],
+                ]
+            ],
+        ];
+
+        $dto = ModelExtendedDto::hydrate($array);
+
+        self::assertEquals($array, $dto->toArrayRecursive());
+    }
 }

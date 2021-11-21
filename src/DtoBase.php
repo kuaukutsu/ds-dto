@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace kuaukutsu\dto;
 
 use Closure;
+use kuaukutsu\ds\collection\Collection;
 
 /**
  * Базовый класс для объекта DTO.
@@ -90,6 +91,11 @@ abstract class DtoBase implements DtoInterface
         foreach ($dtoToArray as $property => $value) {
             if ($value instanceof DtoInterface) {
                 $dtoToArray[$property] = $value->toArrayRecursive();
+                continue;
+            }
+
+            if ($value instanceof Collection) {
+                $dtoToArray[$property] = $this->castTraversableToArray($value);
             }
         }
 
@@ -110,5 +116,26 @@ abstract class DtoBase implements DtoInterface
     protected function getFieldsUsedInMap(): array
     {
         return array_unique($this->fieldsUsedInMap);
+    }
+
+    /**
+     * @param iterable $traversable
+     * @return array<array>
+     */
+    private function castTraversableToArray(iterable $traversable): array
+    {
+        $collection = [];
+        foreach ($traversable as $item) {
+            if ($item instanceof DtoInterface) {
+                $collection[] = $item->toArrayRecursive();
+                continue;
+            }
+
+            if ($item instanceof Collection) {
+                $collection[] = $this->castTraversableToArray($item);
+            }
+        }
+
+        return $collection;
     }
 }
