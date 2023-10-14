@@ -42,14 +42,32 @@ final class DtoTest extends TestCase
      */
     public function testHydrateEmptyMap(): void
     {
-        $dto = ModelDto::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123], []);
-
+        $dto = ModelDto::hydrate(['id' => 6, 'name' => 'NameHydrate', 'unknown' => 123]);
         $data = $dto->toArray();
 
         // должны быть два найденных свойства: id, name
         self::assertCount(2, $data);
         self::assertArrayHasKey('id', $data);
         self::assertArrayHasKey('name', $data);
+    }
+
+    /**
+     * Проверка, что в toArray все свойства.
+     *
+     * @throws Exception
+     */
+    public function testHydrateAllProperties(): void
+    {
+        $dto = ModelDto::hydrate(['id' => 6, 'name' => 'NameHydrate']);
+        $data = $dto->toArray(['*']);
+
+        // должны быть два найденных свойства: id, name
+        self::assertCount(5, $data);
+        self::assertArrayHasKey('id', $data);
+        self::assertArrayHasKey('name', $data);
+        self::assertArrayHasKey('tree', $data);
+        self::assertArrayHasKey('camelCase', $data);
+        self::assertArrayHasKey('props', $data);
     }
 
     /**

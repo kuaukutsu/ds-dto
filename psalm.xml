@@ -2,9 +2,10 @@
 <psalm
         checkForThrowsInGlobalScope="true"
         ensureArrayStringOffsetsExist="true"
-        errorLevel="1"
+        errorLevel="2"
         findUnusedPsalmSuppress="true"
         findUnusedBaselineEntry="true"
+        findUnusedCode="false"
         sealAllMethods="true"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
