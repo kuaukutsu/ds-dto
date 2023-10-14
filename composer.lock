@@ -4,34 +4,37 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c3cf35fbc7658f6ecdbf02573f69cff",
+    "content-hash": "82a0863d69ab0e74fc514bb0995a2399",
     "packages": [
         {
             "name": "kuaukutsu/ds-collection",
-            "version": "1.4.7",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kuaukutsu/ds-collection.git",
-                "reference": "10a149240ee143e101af044310aa920a2fc87106"
+                "reference": "e659c979156ec1b733e4df2276445e654a599149"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kuaukutsu/ds-collection/zipball/10a149240ee143e101af044310aa920a2fc87106",
-                "reference": "10a149240ee143e101af044310aa920a2fc87106",
+                "url": "https://api.github.com/repos/kuaukutsu/ds-collection/zipball/e659c979156ec1b733e4df2276445e654a599149",
+                "reference": "e659c979156ec1b733e4df2276445e654a599149",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.4|^8.0",
+                "php": "^8.1",
                 "php-ds/php-ds": "^1.3"
             },
             "require-dev": {
-                "phpcompatibility/php-compatibility": "^9.3",
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "icanhazstring/composer-unused": "^0.8",
                 "phpunit/phpunit": "^9.5",
-                "rector/rector": "^0.14",
+                "rector/rector": "^0.18",
+                "roave/infection-static-analysis-plugin": "^1.3",
                 "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "*",
-                "vimeo/psalm": "^5.4"
+                "slevomat/coding-standard": "^8.7",
+                "squizlabs/php_codesniffer": "^3.7",
+                "vimeo/psalm": "^5.15"
             },
             "type": "library",
             "autoload": {
@@ -55,7 +58,7 @@
                 "issues": "https://github.com/kuaukutsu/ds-collection/issues",
                 "source": "https://github.com/kuaukutsu/ds-collection"
             },
-            "time": "2022-12-24T11:25:42+00:00"
+            "time": "2023-10-14T08:28:40+00:00"
         },
         {
             "name": "php-ds/php-ds",
