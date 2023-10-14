@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kuaukutsu/ds-collection",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kuaukutsu/ds-collection.git",
-                "reference": "e659c979156ec1b733e4df2276445e654a599149"
+                "reference": "4e9a53b79ff283c5642e936e09ef580772b42fe1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kuaukutsu/ds-collection/zipball/e659c979156ec1b733e4df2276445e654a599149",
-                "reference": "e659c979156ec1b733e4df2276445e654a599149",
+                "url": "https://api.github.com/repos/kuaukutsu/ds-collection/zipball/4e9a53b79ff283c5642e936e09ef580772b42fe1",
+                "reference": "4e9a53b79ff283c5642e936e09ef580772b42fe1",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "issues": "https://github.com/kuaukutsu/ds-collection/issues",
                 "source": "https://github.com/kuaukutsu/ds-collection"
             },
-            "time": "2023-10-14T08:28:40+00:00"
+            "time": "2023-10-14T10:05:16+00:00"
         },
         {
             "name": "php-ds/php-ds",

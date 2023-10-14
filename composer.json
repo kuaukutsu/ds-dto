@@ -46,7 +46,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "kuaukutsu\\ds\\dto\\": "src",
+      "kuaukutsu\\ds\\dto\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "kuaukutsu\\ds\\dto\\tests\\": "tests"
     }
   }
