@@ -32,6 +32,7 @@ use kuaukutsu\ds\collection\Collection;
  * $item = $dtoHydrator->hydrate($data, ModelDTO::class);
  * ```
  *
+ * @template T of DtoInterface
  */
 final class Hydrator
 {
@@ -43,14 +44,14 @@ final class Hydrator
     private readonly array $map;
 
     /**
+     * @var string Случайная строка, примесь
+     */
+    private readonly string $hashStub;
+
+    /**
      * @var string[] Массив свойств объекта которые были найдены в массиве данных.
      */
     private array $fields = [];
-
-    /**
-     * @var string Случайная строка, примесь
-     */
-    private string $hashStub = '619a799747d348fa1caf181a72b65d9f';
 
     /**
      * @var Inflector|null Для преобразования строки pascalCaseToId
@@ -68,15 +69,14 @@ final class Hydrator
     public function __construct(array $map)
     {
         $this->map = $this->generateMap($map);
+        $this->hashStub = microtime() . '619a799747d348fa1caf181a72b65d9f';
     }
 
     /**
      * @param array<string, mixed> $data Массив с данными
-     * @param class-string $className Имя класса, на основе которого будет создан объект
+     * @param class-string<T> $className Имя класса, на основе которого будет создан объект
      * @return DtoInterface
      * @throws ReflectionException
-     * @template T of DtoInterface
-     * @psalm-param class-string<T> $className
      */
     public function hydrate(array $data, string $className): DtoInterface
     {
@@ -86,11 +86,9 @@ final class Hydrator
         $object = $reflection->newInstanceWithoutConstructor();
         $default = $reflection->getDefaultProperties();
 
-        $this->hashStub = spl_object_hash($object);
         foreach ($this->map as $name => $propertyValue) {
             if ($reflection->hasProperty($name)) {
                 $property = $reflection->getProperty($name);
-                $property->setAccessible(true);
 
                 $value = $this->getValue($name, $propertyValue, $data, $default[$name] ?? null);
                 if (is_array($value)) {
@@ -122,19 +120,10 @@ final class Hydrator
         $parent = $reflection->getParentClass();
         if ($parent !== false && $parent->hasProperty('fieldsUsedInMap')) {
             $property = $parent->getProperty('fieldsUsedInMap');
-            $property->setAccessible(true);
-            $property->setValue($object, $this->getFields());
+            $property->setValue($object, $this->fields);
         }
 
         return $object;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getFields(): array
-    {
-        return $this->fields;
     }
 
     /**
@@ -165,15 +154,16 @@ final class Hydrator
     /**
      * Получаем значение из массива данных.
      *
+     * @param string $name
      * @param Closure|string $value
+     * @param array $data
      * @param mixed|null $default
      * @return mixed
      */
-    private function getValue(string $name, $value, array $data, mixed $default = null): mixed
+    private function getValue(string $name, mixed $value, array $data, mixed $default = null): mixed
     {
         if ($value instanceof Closure) {
             $this->fields[] = $name;
-
             return $value($data);
         }
 
@@ -181,7 +171,7 @@ final class Hydrator
          * Фокус: если по обычному ключу в массиве данных нет значений,
          * то пробуем найти ключ в данных (изменить на snake_case и поискать ещё раз),
          * Если ключ найден - вернём значение, если нет, то вернём хэш заглушку (свойство не определено).
-         * Это нужно для составления карты реально переданных свойств в data (fieldsUsedInMap).
+         * fieldsUsedInMap - карта действительно переданных свойств в data.
          */
         $propertyValue = ArrayHelper::getValueByPath($data, $value, $this->hashStub);
         if ($propertyValue === $this->hashStub) {
@@ -194,7 +184,6 @@ final class Hydrator
 
         if ($propertyValue !== $this->hashStub) {
             $this->fields[] = $name;
-
             return $propertyValue;
         }
 
@@ -212,7 +201,6 @@ final class Hydrator
 
     /**
      * @param array<string, mixed> $value
-     * @return DtoInterface|null
      */
     private function tryCastToDto(ReflectionProperty $property, array $value): ?DtoInterface
     {
@@ -223,16 +211,13 @@ final class Hydrator
         }
 
         $className = $type->getName();
-        if (is_subclass_of($className, DtoInterface::class, true)) {
+        if (is_subclass_of($className, DtoInterface::class)) {
             return $className::hydrate($value);
         }
 
         return null;
     }
 
-    /**
-     * @return Collection|null
-     */
     private function tryCastToCollection(ReflectionProperty $property, array $value): ?Collection
     {
         /** @var ReflectionNamedType|null $type */
@@ -243,7 +228,6 @@ final class Hydrator
 
         $className = $type->getName();
         if (is_subclass_of($className, Collection::class)) {
-            /** @var Collection $collection */
             $collection = new $className();
             $collectionType = $collection->getType();
             if (is_subclass_of($collectionType, DtoInterface::class) === false) {

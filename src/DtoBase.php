@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace kuaukutsu\ds\dto;
 
 use Closure;
+use ReflectionClass;
+use ReflectionProperty;
 use kuaukutsu\ds\collection\Collection;
 
 /**
@@ -29,18 +31,17 @@ abstract class DtoBase implements DtoInterface
      * Если не задано, то получаем из структуры объекта: public|protected свойства.
      *
      * @return static
-     * @psalm-suppress MoreSpecificReturnType в 7.4 нет типа static
-     * @noinspection PhpUnhandledExceptionInspection
      * @noinspection PhpDocMissingThrowsInspection
      */
-    final public static function hydrate(array $data, array $map = []): DtoInterface
+    final public static function hydrate(array $data, array $map = []): static
     {
         if ($map === []) {
             $map = static::fields();
         }
 
         /**
-         * @psalm-suppress LessSpecificReturnStatement
+         * @var static
+         * @noinspection PhpUnhandledExceptionInspection
          */
         return (new Hydrator($map))->hydrate($data, static::class);
     }
@@ -53,21 +54,20 @@ abstract class DtoBase implements DtoInterface
      */
     final public function toArray(array $fields = []): array
     {
-        $isSortedFields = true;
-
         if ($fields === []) {
-            $isSortedFields = false;
-            $fields = $this->getFieldsUsedInMap();
-        }
-
-        if ($isSortedFields) {
-            $list = [];
-            $properties = get_object_vars($this);
+            $fields = $this->fieldsUsedInMap;
+        } elseif ($fields === ['*']) {
+            return $this->getPropertiesVars();
+        } else {
+            $structure = [];
+            $properties = $this->getPropertiesVars();
             foreach ($fields as $key) {
-                $list[$key] = $properties[$key] ?? null;
+                if (array_key_exists($key, $properties)) {
+                    $structure[$key] = $properties[$key];
+                }
             }
 
-            return $list;
+            return $structure;
         }
 
         return array_filter(
@@ -109,11 +109,20 @@ abstract class DtoBase implements DtoInterface
     }
 
     /**
-     * @return string[] Имена свойств которые участвуют в мапинге.
+     * @return array<string, mixed>
      */
-    protected function getFieldsUsedInMap(): array
+    private function getPropertiesVars(): array
     {
-        return array_unique($this->fieldsUsedInMap);
+        $properties = (new ReflectionClass($this))
+            ->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
+
+        $structure = [];
+        foreach ($properties as $property) {
+            /** @psalm-suppress ImpureMethodCall */
+            $structure[$property->name] = $property->getValue($this);
+        }
+
+        return $structure;
     }
 
     /**
