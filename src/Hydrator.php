@@ -40,7 +40,7 @@ final class Hydrator
      *
      * @var array<string, string|Closure> Массив пересечения схем между насыщаемым объектов и данными.
      */
-    private array $map;
+    private readonly array $map;
 
     /**
      * @var string[] Массив свойств объекта которые были найдены в массиве данных.
@@ -165,13 +165,11 @@ final class Hydrator
     /**
      * Получаем значение из массива данных.
      *
-     * @param string $name
      * @param Closure|string $value
-     * @param array $data
      * @param mixed|null $default
      * @return mixed
      */
-    private function getValue(string $name, $value, array $data, $default = null)
+    private function getValue(string $name, $value, array $data, mixed $default = null): mixed
     {
         if ($value instanceof Closure) {
             $this->fields[] = $name;
@@ -213,7 +211,6 @@ final class Hydrator
     }
 
     /**
-     * @param ReflectionProperty $property
      * @param array<string, mixed> $value
      * @return DtoInterface|null
      */
@@ -234,8 +231,6 @@ final class Hydrator
     }
 
     /**
-     * @param ReflectionProperty $property
-     * @param array $value
      * @return Collection|null
      */
     private function tryCastToCollection(ReflectionProperty $property, array $value): ?Collection
@@ -247,11 +242,11 @@ final class Hydrator
         }
 
         $className = $type->getName();
-        if (is_subclass_of($className, Collection::class, true)) {
+        if (is_subclass_of($className, Collection::class)) {
             /** @var Collection $collection */
             $collection = new $className();
             $collectionType = $collection->getType();
-            if (is_subclass_of($collectionType, DtoInterface::class, true) === false) {
+            if (is_subclass_of($collectionType, DtoInterface::class) === false) {
                 return null;
             }
 

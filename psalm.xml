@@ -1,43 +1,22 @@
 <?xml version="1.0"?>
 <psalm
-    checkForThrowsDocblock="false"
-    checkForThrowsInGlobalScope="true"
-    ensureArrayStringOffsetsExist="true"
-    errorLevel="1"
-    resolveFromConfigFile="true"
-    findUnusedPsalmSuppress="true"
-    sealAllMethods="true"
-    skipChecksOnUnresolvableIncludes="false"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        checkForThrowsInGlobalScope="true"
+        ensureArrayStringOffsetsExist="true"
+        errorLevel="1"
+        findUnusedPsalmSuppress="true"
+        findUnusedBaselineEntry="true"
+        sealAllMethods="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
-    <plugins>
-        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-    </plugins>
-
     <projectFiles>
-        <directory name="src" />
-        <directory name="tests" />
-        <ignoreFiles>
-            <directory name="vendor" />
-        </ignoreFiles>
+        <directory name="src"/>
     </projectFiles>
 
     <issueHandlers>
-        <DeprecatedClass errorLevel="info"/>
-        <DeprecatedConstant errorLevel="info"/>
-        <DeprecatedFunction errorLevel="info"/>
-        <DeprecatedInterface errorLevel="info"/>
-        <DeprecatedMethod errorLevel="info"/>
-        <DeprecatedProperty errorLevel="info"/>
-        <DeprecatedTrait errorLevel="info"/>
-        <MixedAssignment errorLevel="suppress"/>
-
-        <MixedInferredReturnType>
-            <errorLevel type="suppress">
-                <directory name="tests" />
-            </errorLevel>
-        </MixedInferredReturnType>
+        <MixedArrayAccess errorLevel="suppress"/>
+        <MixedArrayAssignment errorLevel="suppress"/>
+        <UncaughtThrowInGlobalScope errorLevel="info"/>
     </issueHandlers>
 </psalm>

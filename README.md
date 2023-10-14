@@ -4,9 +4,9 @@ Disclaimer: вставлю свои 5 копеек, не претендую на
 
 ## Словарь используемых терминов:
 
-- **Form** получение данных извне (Request: POST/GET/ARGS/Array), обработка (валидация, фильтрация), передача в
+- **Form** получение данных извне (request: POST/GET/ARGS/Array), обработка (валидация, фильтрация), передача в
   сервисный слой (бизнес логика).
-- **Model** какое-то объектное представления данных в системе (инфрастркутура).
+- **Model** какое-то объектное представления данных в системе (инфрастркутура, repository).
 - **Service** различные сервисы (UoW, UseCase), обработка бизнес логики.
 - **DTO** транспорт, плюс схема данных (комментарии могут рассказывать о том, как и где используются данные). Есть
   возможность быстро организовать версионность массива данных.
@@ -101,8 +101,13 @@ class Service
 local
 
 ```shell
-docker build -t kuaukutsu/dto:php .
-docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php sh
+docker pull ghcr.io/kuaukutsu/php:8.1-cli
+```
+
+shell
+
+```shell
+docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli sh
 ```
 
 ## Testing
@@ -118,7 +123,7 @@ The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/bin/phpunit 
+docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli ./vendor/bin/phpunit 
 ```
 
 ### Code Sniffer
@@ -126,7 +131,7 @@ docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/b
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/bin/phpcs 
+docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli ./vendor/bin/phpcs 
 ```
 
 phpqa
@@ -146,7 +151,7 @@ The code is statically analyzed with [Psalm](https://psalm.dev/). To run static 
 local
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app kuaukutsu/dto:php ./vendor/bin/psalm 
+docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli ./vendor/bin/psalm 
 ```
 
 phpqa

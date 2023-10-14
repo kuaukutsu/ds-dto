@@ -14,11 +14,10 @@ final class ModelDtoCollection extends Collection
     }
 
     /**
-     * @param ModelDto|object $item
+     * @param ModelDto $item
      * @return int
-     * @psalm-suppress MixedReturnStatement
      */
-    protected function indexBy(object $item): int
+    protected function indexBy($item): int
     {
         return $item->id;
     }

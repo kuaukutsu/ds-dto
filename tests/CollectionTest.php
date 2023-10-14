@@ -23,7 +23,7 @@ final class CollectionTest extends TestCase
                     [
                         'id' => 12,
                         'name' => 'second item',
-                    ]
+                    ],
                 ],
             ]
         );
@@ -61,7 +61,7 @@ final class CollectionTest extends TestCase
                         [
                             'id' => 112,
                             'name' => 'second item',
-                        ]
+                        ],
                     ],
                 ],
                 [
@@ -74,9 +74,9 @@ final class CollectionTest extends TestCase
                         [
                             'id' => 122,
                             'name' => 'second item',
-                        ]
+                        ],
                     ],
-                ]
+                ],
             ],
         ];
 

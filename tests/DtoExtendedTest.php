@@ -49,8 +49,8 @@ final class DtoExtendedTest extends TestCase
                         'name' => 'nested dto 2',
                     ],
                     // possibly DTO
-                    'modelSecondDto' => ModelDto::hydrate(['id' => 233, 'name' => 'Second DTO'])
-                ]
+                    'modelSecondDto' => ModelDto::hydrate(['id' => 233, 'name' => 'Second DTO']),
+                ],
             ]
         );
 
@@ -74,7 +74,7 @@ final class DtoExtendedTest extends TestCase
             [
                 ['id' => 1, 'modelDto' => ModelDto::hydrate(['id' => 11, 'name' => 'test'])],
                 ['id', 'modelDto'],
-                ['id' => 1, 'modelDto' => ['id' => 11, 'name' => 'test']]
+                ['id' => 1, 'modelDto' => ['id' => 11, 'name' => 'test']],
             ],
             [
                 [
@@ -85,23 +85,23 @@ final class DtoExtendedTest extends TestCase
                             'id' => 22,
                             'modelDto' => ModelDto::hydrate(['id' => 222, 'name' => 'test222']),
                         ]
-                    )
+                    ),
                 ],
                 ['id', 'modelDto', 'modelExtendedDto'],
                 [
                     'id' => 2,
                     'modelDto' => [
                         'id' => 22,
-                        'name' => 'test'
+                        'name' => 'test',
                     ],
                     'modelExtendedDto' => [
                         'id' => 22,
                         'modelDto' => [
                             'id' => 222,
-                            'name' => 'test222'
-                        ]
-                    ]
-                ]
+                            'name' => 'test222',
+                        ],
+                    ],
+                ],
             ],
         ];
     }

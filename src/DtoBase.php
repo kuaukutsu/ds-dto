@@ -72,9 +72,7 @@ abstract class DtoBase implements DtoInterface
 
         return array_filter(
             get_object_vars($this),
-            static function (string $key) use ($fields): bool {
-                return in_array($key, $fields, true);
-            },
+            static fn(string $key): bool => in_array($key, $fields, true),
             ARRAY_FILTER_USE_KEY
         );
     }
@@ -119,7 +117,6 @@ abstract class DtoBase implements DtoInterface
     }
 
     /**
-     * @param iterable $traversable
      * @return array<array>
      */
     private function castTraversableToArray(iterable $traversable): array

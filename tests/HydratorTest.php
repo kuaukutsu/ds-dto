@@ -55,35 +55,35 @@ final class HydratorTest extends TestCase
             [
                 ['id' => 1, 'name' => 'NameHydrate', 'props' => [1, 2, 3]],
                 ['id', 'name'],
-                ['id' => 1, 'name' => 'NameHydrate']
+                ['id' => 1, 'name' => 'NameHydrate'],
             ],
             [
                 ['id' => 3, 'name' => 'NameHydrate', 'props' => [1, 2, 3]],
                 ['id', 'props'],
-                ['id' => 3, 'props' => [1, 2, 3]]
+                ['id' => 3, 'props' => [1, 2, 3]],
             ],
             // Проверка, что работает xpath
             [
                 ['id' => 2, 'path' => ['name' => 'PathNameHydrate']],
                 ['id', 'name' => 'path.name'],
-                ['id' => 2, 'name' => 'PathNameHydrate']
+                ['id' => 2, 'name' => 'PathNameHydrate'],
             ],
             [
                 ['id' => 4, 'path' => ['sub' => ['name' => 'PathSubNameHydrate']]],
                 ['id', 'name' => 'path.sub.name'],
-                ['id' => 4, 'name' => 'PathSubNameHydrate']
+                ['id' => 4, 'name' => 'PathSubNameHydrate'],
             ],
             // Проверка значений по умолчанию
             [
                 ['id' => 5, 'name' => 'NameHydrate'],
                 ['id', 'name'],
-                ['id' => 5, 'name' => 'NameHydrate', 'props' => []]
+                ['id' => 5, 'name' => 'NameHydrate', 'props' => []],
             ],
             // Проверяем, что если в данных snake_case, то пробуем привести его к виду camelCase
             [
                 ['id' => 6, 'camel_case' => 'test'],
                 ['id', 'camelCase'],
-                ['id' => 6, 'camelCase' => 'test']
+                ['id' => 6, 'camelCase' => 'test'],
             ],
         ];
     }
