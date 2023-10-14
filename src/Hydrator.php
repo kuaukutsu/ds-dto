@@ -154,11 +154,7 @@ final class Hydrator
     /**
      * Получаем значение из массива данных.
      *
-     * @param string $name
      * @param Closure|string $value
-     * @param array $data
-     * @param mixed|null $default
-     * @return mixed
      */
     private function getValue(string $name, mixed $value, array $data, mixed $default = null): mixed
     {

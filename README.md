@@ -98,8 +98,6 @@ class Service
 
 ## Docker
 
-local
-
 ```shell
 docker pull ghcr.io/kuaukutsu/php:8.1-cli
 ```
@@ -117,27 +115,7 @@ docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cl
 The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
 
 ```shell
-./vendor/bin/phpunit
-```
-
-local
-
-```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli ./vendor/bin/phpunit 
-```
-
-### Code Sniffer
-
-local
-
-```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli ./vendor/bin/phpcs 
-```
-
-phpqa
-
-```shell
-docker run --init -it --rm -v "$(pwd):/app" -v "$(pwd)/phpqa/tmp:/tmp" -w /app jakzal/phpqa phpcs
+make phpunit
 ```
 
 ### Static analysis
@@ -145,17 +123,17 @@ docker run --init -it --rm -v "$(pwd):/app" -v "$(pwd)/phpqa/tmp:/tmp" -w /app j
 The code is statically analyzed with [Psalm](https://psalm.dev/). To run static analysis:
 
 ```shell
-./vendor/bin/psalm
+make psalm
 ```
 
-local
+### Code Sniffer
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -w /app ghcr.io/kuaukutsu/php:8.1-cli ./vendor/bin/psalm 
+make phpcs
 ```
 
-phpqa
+### Rector
 
 ```shell
-docker run --init -it --rm -v "$(pwd):/app" -v "$(pwd)/phpqa/tmp:/tmp" -w /app jakzal/phpqa psalm
+make rector
 ```
