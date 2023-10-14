@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace kuaukutsu\dto\tests;
+namespace kuaukutsu\ds\dto\tests;
 
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
-use kuaukutsu\dto\tests\stub\ModelDto;
-use kuaukutsu\dto\Hydrator;
+use kuaukutsu\ds\dto\tests\stub\ModelDto;
+use kuaukutsu\ds\dto\Hydrator;
 
 final class HydratorTest extends TestCase
 {

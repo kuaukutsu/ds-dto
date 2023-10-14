@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace kuaukutsu\dto\tests\stub;
+namespace kuaukutsu\ds\dto\tests\stub;
 
 use kuaukutsu\ds\collection\Collection;
 

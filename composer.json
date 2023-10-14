@@ -1,5 +1,5 @@
 {
-  "name": "kuaukutsu/dto",
+  "name": "kuaukutsu/ds-dto",
   "description": "DTO: Data Transfer Object",
   "license": "BSD-3-Clause",
   "authors": [
@@ -9,8 +9,8 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/kuaukutsu/dto/issues",
-    "source": "https://github.com/kuaukutsu/dto"
+    "issues": "https://github.com/kuaukutsu/ds-dto/issues",
+    "source": "https://github.com/kuaukutsu/ds-dto"
   },
   "require": {
     "php": "^8.1",
@@ -46,8 +46,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "kuaukutsu\\dto\\": "src",
-      "kuaukutsu\\dto\\tests\\": "tests"
+      "kuaukutsu\\ds\\dto\\": "src",
+      "kuaukutsu\\ds\\dto\\tests\\": "tests"
     }
   }
 }

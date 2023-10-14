@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace kuaukutsu\dto;
+namespace kuaukutsu\ds\dto;
 
 use Closure;
 use kuaukutsu\ds\collection\Collection;

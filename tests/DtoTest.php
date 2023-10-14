@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace kuaukutsu\dto\tests;
+namespace kuaukutsu\ds\dto\tests;
 
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
-use kuaukutsu\dto\tests\stub\ModelDto;
+use kuaukutsu\ds\dto\tests\stub\ModelDto;
 
 final class DtoTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace kuaukutsu\dto\tests\stub;
+namespace kuaukutsu\ds\dto\tests\stub;
 
-use kuaukutsu\dto\DtoBase;
+use kuaukutsu\ds\dto\DtoBase;
 
 /**
  * @psalm-immutable
