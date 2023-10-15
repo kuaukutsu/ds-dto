@@ -102,6 +102,10 @@ class Service
 docker pull ghcr.io/kuaukutsu/php:8.1-cli
 ```
 
+Container: 
+- `ghcr.io/kuaukutsu/php:${PHP_VERSION}-cli` (**default**)
+- `jakzal/phpqa:php${PHP_VERSION}`
+
 shell
 
 ```shell
