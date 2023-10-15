@@ -1,6 +1,6 @@
 {
   "name": "kuaukutsu/ds-dto",
-  "description": "DTO: Data Transfer Object",
+  "description": "Data Structure: DTO (Data Transfer Object)",
   "license": "BSD-3-Clause",
   "authors": [
     {
