@@ -125,7 +125,7 @@ final class DtoTest extends TestCase
         self::assertArrayHasKey('name', $array);
     }
 
-    public function dataProviderHydrate(): array
+    public static function dataProviderHydrate(): array
     {
         return [
             // Простая проверка, что только заданные значения задаются

@@ -68,7 +68,7 @@ final class DtoExtendedTest extends TestCase
         self::assertEquals('nested dto 2', $dto->modelExtendedDto->modelDto->name);
     }
 
-    public function dataProviderHydrate(): array
+    public static function dataProviderHydrate(): array
     {
         return [
             [

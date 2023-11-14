@@ -7,7 +7,6 @@ namespace kuaukutsu\ds\dto\tests;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use kuaukutsu\ds\dto\tests\stub\ModelDto;
 use kuaukutsu\ds\dto\Hydrator;
 
@@ -36,7 +35,6 @@ final class HydratorTest extends TestCase
     /**
      * @throws ReflectionException
      * @throws Exception
-     * @throws InvalidArgumentException
      */
     public function testHydrateEmptyMap(): void
     {
@@ -48,7 +46,7 @@ final class HydratorTest extends TestCase
         self::assertEmpty($object->toArray());
     }
 
-    public function dataProviderHydrate(): array
+    public static function dataProviderHydrate(): array
     {
         return [
             // Простая проверка, что только заданные значения задаются
